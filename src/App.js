@@ -1,25 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import './App.css'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Home from './components/Home'
+import Menu from './components/Menu'
+import routes from './routes'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+class App extends Component {
+    render() {
+        return (
+            <div className="container">
+                {/* {Menu} */}
+                <BrowserRouter>
+                    <Menu />
+                    {/* {content} */}
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        {this.showContentMenus(routes)}
+                    </Routes>
+
+                </BrowserRouter>
+            </div>
+        );
+    }
+    showContentMenus = (routes) => {
+        var result = ''
+        if (routes.length > 0) {
+            result = routes.map((route, index) => {
+                return (
+                    <Route
+                        key={index}
+                        path={route.path}
+                        element={route.element}
+                        exact={route.exact} />
+                )
+            })
+        }
+        return result
+    }
 }
+
 
 export default App;
